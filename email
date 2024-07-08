@@ -1,0 +1,21 @@
+php
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'make'
+            }
+        }
+    }
+    post {
+        always {
+            emailext (
+                subject: 'Build Notification',
+                body: 'The build is complete.',
+                to: 'user@example.com',
+                attachmentsPattern: '**/*.log'
+            )
+        }
+    }
+}
